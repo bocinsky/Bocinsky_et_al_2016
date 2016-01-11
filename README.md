@@ -1,11 +1,11 @@
-#Bocinsky et al. 2015
+#Bocinsky et al. 2016
 
-###October 29, 2015
+###January 11, 2016
 
 This directory contains code written in R for all analyses reported in
 
 R. Kyle Bocinsky, Johnathan Rush, Keith W. Kintigh, and Timothy A. Kohler
-*Macrohistory of the Prehispanic Pueblo Southwest: Cycles of Exploration and Exploitation*
+*Exploration and Exploitation in the Macrohistory of the Prehispanic Pueblo Southwest*
 
 ####Data file S1
 

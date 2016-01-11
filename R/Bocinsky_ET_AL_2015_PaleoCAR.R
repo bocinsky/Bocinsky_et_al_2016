@@ -1,6 +1,6 @@
 ### Script for PRISM climate retrodiction using PaleoCAR reported in
 ### R. Kyle Bocinsky, Johnathan Rush, Keith W. Kintigh, and Timothy A. Kohler, 
-### Macrohistory of the Prehispanic Pueblo Southwest: Cycles of Exploration and Exploitation
+### Exploration and Exploitation in the Macrohistory of the Prehispanic Pueblo Southwest
 
 ### WARNING: This will take a long time to run on large areas.
 
