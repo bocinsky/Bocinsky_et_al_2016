@@ -13,7 +13,7 @@
 ## ffmpeg
 
 ## Set the working directory to the directory of this file!
-setwd("/Volumes/BOCINSKY_DATA/WORKING/BOCINSKY_ET_AL_2015/R/")
+setwd("/Volumes/BOCINSKY_DATA/PUBLICATIONS/SUBMITTED/BOCINSKY_ET_AL_2015/R/")
 
 ## Use the checkpoint package to ensure successful execution.
 ## This package installs temporary versions of the necessary packages
@@ -498,6 +498,28 @@ local.data.mean <- filter(apply(local.data,2,mean, na.rm=T),filter=dist)
 local.data.se <-  filter(apply(local.data,2,se)*1.96,filter=dist)
 local.data.se.lower <- local.data.mean-local.data.se; local.data.se.lower[local.data.se.lower<0] <- 0; local.data.se.lower[is.na(local.data.se.lower) | local.data.se.lower==1] <- 0
 local.data.se.upper <- local.data.mean+local.data.se; local.data.se.upper[local.data.se.upper>1] <- 1; local.data.se.upper[is.na(local.data.se.upper) | local.data.se.upper==0] <- 1
+
+## Create a table summarizing niche distribution by subperiod
+## Include numbers/proportions of t-r dates
+EXP2.NICHES.swus <- lapply(EXP2.NICHES,crop, y=SWUS.extent, snap='out')
+all.means <- lapply(EXP2.NICHES.swus,cellStats, mean)
+occupied.means <- lapply(lapply(EXP2.NICHES.swus, extract, y=sites.raster.points),mean)
+local.means <- lapply(2:length(pueblo.subperiod.breaks), function(i){
+  return(mean(local.data.mean[(pueblo.subperiod.breaks[i-1]+1):pueblo.subperiod.breaks[i]]))
+})
+names(local.means) <- names(occupied.means)
+treering.periods <- lapply(2:length(pueblo.subperiod.breaks), function(i){
+  cutting <- nrow(sites[Outer_Date_AD %in% (pueblo.subperiod.breaks[i-1]+1):pueblo.subperiod.breaks[i] & C_Level %in% c(2,3)])
+  noncutting <- nrow(sites[Outer_Date_AD %in% (pueblo.subperiod.breaks[i-1]+1):pueblo.subperiod.breaks[i] & C_Level %in% 1])
+  p.cutting <- cutting/(cutting+noncutting)
+  return(list(cutting=cutting, noncutting=noncutting, p.cutting=p.cutting))
+})
+names(treering.periods) <- names(occupied.means)
+
+period.summaries <- as.data.frame(rbindlist(list(lapply(treering.periods,'[[','cutting'),lapply(treering.periods,'[[','noncutting'),lapply(treering.periods,'[[','p.cutting'),all.means,occupied.means,local.means)))
+rownames(period.summaries) <- c('Cutting','Non-cutting','Percent Cutting','MFN - All', 'MFN - Occupied','MFN - Local')
+write.csv(period.summaries,"../OUTPUT/period.summaries.csv")
+
 
 ## Summarize the niche distribution by period
 ## And taking the average over the last four years
@@ -1187,8 +1209,37 @@ dev.off()
 distill("../FIGURES/FIG_6.pdf")
 
 
+##### FIG_7.pdf #####
+## Histogram of site-level counts of tree-ring dates
 
-##### MOVIE_S1.pdf #####
+phi <- (1+sqrt(5))/2
+mai <- c(0.25,0.25,0,0)
+nplots <- 1
+fig.width <- 4.6
+fig.height <- nplots*fig.width/phi
+between <- 0.2
+margins <- 0.5
+plot.height <- (fig.height - (margins*1.5) - (between*(nplots-1)))/nplots
+legend.cex <- 0.75
+
+quartz(file="../FIGURES/FIG_7.pdf", width=fig.width, height=fig.height, antialias=FALSE, bg="white", type='pdf', family="Gulim", pointsize=8, dpi=600)
+
+this.plot <- 1
+par(mai=c(margins + (plot.height * (nplots-this.plot)) + (between * (nplots-this.plot)), margins, (margins * 0.5) + (plot.height * (this.plot-1)) + (between * (this.plot-1)), margins*0.5), xpd=F)
+this.hist <- hist(table(sites[Outer_Date_AD %in% 500:1400][['Seq_Number']]), breaks=100, plot=F)
+this.hist$count[this.hist$count==0] <- NA
+plot(y=this.hist$count,x=this.hist$mids, type='h', log='y', lwd=5, lend=1, xaxs="i",yaxs="i", xlab="", ylab="", ylim=c(0.9,600), xlim=c(0,1000), axes=FALSE, main='', xpd=T)
+
+axis(1, at=seq(0,1000,200), labels=seq(0,1000,200), cex.axis=0.8)
+axis(2, at=c(1,10,100,200,600),labels=c(1,10,100,200,600), cex.axis=0.8)
+mtext("Number of sites", side=2, line=2.09)
+mtext("Number of dates", side=1, line=2.25)
+
+dev.off()
+distill("../FIGURES/FIG_7.pdf")
+
+
+ ##### MOVIE_S1.pdf #####
 ## This section contains code that creates a pseudo-3D animation
 ## of the joint-gensis of the maize dry-farming niche and the tree-ring dates.
 # First, create a directory for the animation frames.
