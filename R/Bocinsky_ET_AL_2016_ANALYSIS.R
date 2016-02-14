@@ -1,6 +1,6 @@
 ### Script for all analyses reported in
 ### R. Kyle Bocinsky, Johnathan Rush, Keith W. Kintigh, and Timothy A. Kohler, 
-### Exploration and Exploitation in the Macrohistory of the Prehispanic Pueblo Southwest
+### 2016. Exploration and Exploitation in the Macrohistory of the Prehispanic Pueblo Southwest. Science Advances.
 
 ### *** DUE TO THEIR SENSITIVE NATURE, TREE-RING DATA ARE AVAILABLE ONLY WITH PERMISSION OF THE CORRESPONDING AUTHORS *** ###
 ### Contact Timothy A. Kohler (tako@wsu.edu) for access through the Digital Archaeological Record (www.tdar.org).

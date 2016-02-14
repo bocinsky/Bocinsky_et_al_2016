@@ -1,6 +1,6 @@
 ### Script for PRISM climate extraction reported in
 ### R. Kyle Bocinsky, Johnathan Rush, Keith W. Kintigh, and Timothy A. Kohler, 
-### Exploration and Exploitation in the Macrohistory of the Prehispanic Pueblo Southwest
+### 2016. Exploration and Exploitation in the Macrohistory of the Prehispanic Pueblo Southwest. Science Advances.
 
 ## This script extracts data from the ~800 m monthly PRISM dataset
 ## for the SKOPE study area: roughly the total extent of the four-corners states.
